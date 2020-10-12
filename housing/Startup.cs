@@ -30,7 +30,7 @@ namespace housing
             //services.AddDbContext<dataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers();
             services.AddRazorPages().AddRazorRuntimeCompilation();
-            services.AddEntityFrameworkNpgsql().AddDbContext<dataContext>(options =>
+            services.AddDbContext<dataContext>(options =>
             {
                 var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
