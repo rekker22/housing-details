@@ -1,0 +1,137 @@
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+
+namespace housing.Migrations
+{
+    public partial class AddedDifferentDatabasetoQuery : Migration
+    {
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropTable(
+                name: "Accommodation");
+
+            migrationBuilder.DropTable(
+                name: "PlacestoVisit");
+
+            migrationBuilder.CreateTable(
+                name: "Accds",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    TypePreferenceOrder1 = table.Column<string>(nullable: true),
+                    TypePreferenceOrder2 = table.Column<string>(nullable: true),
+                    TypePreferenceOrder3 = table.Column<string>(nullable: true),
+                    TypePreferenceOrder4 = table.Column<string>(nullable: true),
+                    dataLocation = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Accds", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Accds_Datas_dataLocation",
+                        column: x => x.dataLocation,
+                        principalTable: "Datas",
+                        principalColumn: "Location",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Ptvs",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    TypePreferenceOrder1 = table.Column<string>(nullable: true),
+                    TypePreferenceOrder2 = table.Column<string>(nullable: true),
+                    TypePreferenceOrder3 = table.Column<string>(nullable: true),
+                    TypePreferenceOrder4 = table.Column<string>(nullable: true),
+                    dataLocation = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Ptvs", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Ptvs_Datas_dataLocation",
+                        column: x => x.dataLocation,
+                        principalTable: "Datas",
+                        principalColumn: "Location",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Accds_dataLocation",
+                table: "Accds",
+                column: "dataLocation");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Ptvs_dataLocation",
+                table: "Ptvs",
+                column: "dataLocation");
+        }
+
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropTable(
+                name: "Accds");
+
+            migrationBuilder.DropTable(
+                name: "Ptvs");
+
+            migrationBuilder.CreateTable(
+                name: "Accommodation",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TypePreferenceOrder1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TypePreferenceOrder2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TypePreferenceOrder3 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TypePreferenceOrder4 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    dataLocation = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Accommodation", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Accommodation_Datas_dataLocation",
+                        column: x => x.dataLocation,
+                        principalTable: "Datas",
+                        principalColumn: "Location",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PlacestoVisit",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TypePreferenceOrder1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TypePreferenceOrder2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TypePreferenceOrder3 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TypePreferenceOrder4 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    dataLocation = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PlacestoVisit", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PlacestoVisit_Datas_dataLocation",
+                        column: x => x.dataLocation,
+                        principalTable: "Datas",
+                        principalColumn: "Location",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Accommodation_dataLocation",
+                table: "Accommodation",
+                column: "dataLocation");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PlacestoVisit_dataLocation",
+                table: "PlacestoVisit",
+                column: "dataLocation");
+        }
+    }
+}
