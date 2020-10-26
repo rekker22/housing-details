@@ -31,6 +31,7 @@ namespace housing
             services.AddControllers();
             services.AddRazorPages().AddRazorRuntimeCompilation();
             services.AddDbContextPool<dataContext>(options =>
+
             {
                 var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
