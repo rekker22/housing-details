@@ -30,7 +30,7 @@ namespace housing
             //services.AddDbContext<dataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers();
             services.AddRazorPages().AddRazorRuntimeCompilation();
-            services.AddEntityFrameworkNpgsql().AddDbContext<dataContext>(options =>
+            services.AddDbContextPool<dataContext>(options =>
             {
                 var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
@@ -42,6 +42,7 @@ namespace housing
                 {
                     connStr = Configuration.GetConnectionString("DefaultConnection");
                     options.UseSqlServer(connStr);
+
                 }
                 else
                 {
@@ -49,18 +50,17 @@ namespace housing
                     var connUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
 
                     // Parse connection URL to connection string for Npgsql
-                    connUrl = connUrl.Replace("postgres://", string.Empty);
-                    var pgUserPass = connUrl.Split("@")[0];
-                    var pgHostPortDb = connUrl.Split("@")[1];
-                    var pgHostPort = pgHostPortDb.Split("/")[0];
-                    var pgDb = pgHostPortDb.Split("/")[1];
-                    var pgUser = pgUserPass.Split(":")[0];
-                    var pgPass = pgUserPass.Split(":")[1];
-                    var pgHost = pgHostPort.Split(":")[0];
-                    var pgPort = pgHostPort.Split(":")[1];
+                    connUrl = connUrl.Replace("postgres://", string.Empty);//fexbzfszhmuqrr: 3dc3d8829e35498a511b8e0fb7fa953243004c96bc5481acdbf5218350063826@ec2-54-228-170-125.eu-west-1.compute.amazonaws.com:5432/d3c3ldsf29mr0c
+                    var pgUserPass = connUrl.Split("@")[0]; //fexbzfszhmuqrr: 3dc3d8829e35498a511b8e0fb7fa953243004c96bc5481acdbf5218350063826
+                      var pgHostPortDb = connUrl.Split("@")[1];//ec2-54-228-170-125.eu-west-1.compute.amazonaws.com:5432/d3c3ldsf29mr0c
+                    var pgHostPort = pgHostPortDb.Split("/")[0];//ec2-54-228-170-125.eu-west-1.compute.amazonaws.com:5432
+                    var pgDb = pgHostPortDb.Split("/")[1];//d3c3ldsf29mr0c
+                    var pgUser = pgUserPass.Split(":")[0];//fexbzfszhmuqrr
+                    var pgPass = pgUserPass.Split(":")[1];// 3dc3d8829e35498a511b8e0fb7fa953243004c96bc5481acdbf5218350063826
+                    var pgHost = pgHostPort.Split(":")[0];//ec2-54-228-170-125.eu-west-1.compute.amazonaws.com
+                    var pgPort = pgHostPort.Split(":")[1];//5432
 
                     connStr = $"Server={pgHost};Port={pgPort};User Id={pgUser};Password={pgPass};Database={pgDb}";
-                    Console.WriteLine(connStr);
                     options.UseNpgsql(connStr);
                 }
 

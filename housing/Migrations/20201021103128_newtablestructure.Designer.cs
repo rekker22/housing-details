@@ -9,20 +9,21 @@ using housing.Models;
 namespace housing.Migrations
 {
     [DbContext(typeof(dataContext))]
-    [Migration("20201012070727_MakingSingleDatabase")]
-    partial class MakingSingleDatabase
+    [Migration("20201021103128_newtablestructure")]
+    partial class newtablestructure
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.8")
+                .HasAnnotation("ProductVersion", "3.1.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("housing.Models.Accommodation", b =>
                 {
                     b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Location")
@@ -43,7 +44,12 @@ namespace housing.Migrations
                     b.Property<string>("TypePreferenceOrder4")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("dataLocation")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("dataLocation");
 
                     b.ToTable("Accds");
                 });
@@ -51,7 +57,11 @@ namespace housing.Migrations
             modelBuilder.Entity("housing.Models.PlacestoVisit", b =>
                 {
                     b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Location")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -68,7 +78,12 @@ namespace housing.Migrations
                     b.Property<string>("TypePreferenceOrder4")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("dataLocation")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("dataLocation");
 
                     b.ToTable("Ptvs");
                 });
@@ -78,45 +93,29 @@ namespace housing.Migrations
                     b.Property<string>("Location")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("AccdName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("AccdTypePreferenceOrder1")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("AccdTypePreferenceOrder2")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("AccdTypePreferenceOrder3")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("AccdTypePreferenceOrder4")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("Budget")
                         .HasColumnType("int");
 
                     b.Property<int>("Dfd")
                         .HasColumnType("int");
 
-                    b.Property<string>("PtvName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PtvTypePreferenceOrder1")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PtvTypePreferenceOrder2")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PtvTypePreferenceOrder3")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PtvTypePreferenceOrder4")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Location");
 
                     b.ToTable("Datas");
+                });
+
+            modelBuilder.Entity("housing.Models.Accommodation", b =>
+                {
+                    b.HasOne("housing.Models.data", null)
+                        .WithMany("accd")
+                        .HasForeignKey("dataLocation");
+                });
+
+            modelBuilder.Entity("housing.Models.PlacestoVisit", b =>
+                {
+                    b.HasOne("housing.Models.data", null)
+                        .WithMany("ptv")
+                        .HasForeignKey("dataLocation");
                 });
 #pragma warning restore 612, 618
         }

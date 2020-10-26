@@ -433,3 +433,8 @@ E:\asp.net\housing\housing\obj\Debug\netcoreapp3.1\housing.Views.pdb
 E:\asp.net\housing\housing\obj\Debug\netcoreapp3.1\Razor\Pages\_Layout.cshtml.g.cs
 E:\asp.net\housing\housing\obj\Debug\netcoreapp3.1\Razor\Pages\_ViewImports.cshtml.g.cs
 E:\asp.net\housing\housing\obj\Debug\netcoreapp3.1\Razor\Pages\_ViewStart.cshtml.g.cs
+E:\asp.net\housing\housing\bin\Debug\netcoreapp3.1\Npgsql.dll
+E:\asp.net\housing\housing\bin\Debug\netcoreapp3.1\Npgsql.EntityFrameworkCore.PostgreSQL.dll
+E:\asp.net\housing\housing\obj\Debug\netcoreapp3.1\housing.csproj.CoreCompileInputs.cache
+E:\asp.net\housing\housing\obj\Debug\netcoreapp3.1\housing.MvcApplicationPartsAssemblyInfo.cs
+E:\asp.net\housing\housing\obj\Debug\netcoreapp3.1\housing.MvcApplicationPartsAssemblyInfo.cache

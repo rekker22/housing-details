@@ -9,20 +9,21 @@ using housing.Models;
 namespace housing.Migrations
 {
     [DbContext(typeof(dataContext))]
-    [Migration("20201012052816_AddedDifferentDatabasetoQuery")]
-    partial class AddedDifferentDatabasetoQuery
+    [Migration("20201021104514_removedLocation")]
+    partial class removedLocation
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.8")
+                .HasAnnotation("ProductVersion", "3.1.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("housing.Models.Accommodation", b =>
                 {
                     b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
@@ -53,6 +54,7 @@ namespace housing.Migrations
             modelBuilder.Entity("housing.Models.PlacestoVisit", b =>
                 {
                     b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
@@ -99,14 +101,14 @@ namespace housing.Migrations
             modelBuilder.Entity("housing.Models.Accommodation", b =>
                 {
                     b.HasOne("housing.Models.data", null)
-                        .WithMany("Accd")
+                        .WithMany("accd")
                         .HasForeignKey("dataLocation");
                 });
 
             modelBuilder.Entity("housing.Models.PlacestoVisit", b =>
                 {
                     b.HasOne("housing.Models.data", null)
-                        .WithMany("Ptv")
+                        .WithMany("ptv")
                         .HasForeignKey("dataLocation");
                 });
 #pragma warning restore 612, 618

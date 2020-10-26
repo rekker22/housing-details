@@ -13,25 +13,39 @@ namespace housing.Controllers
     [ApiController]
     public class dataController : ControllerBase
     {
-        private readonly dataContext _context;
+        private readonly dataContext db;
 
         public dataController(dataContext context)
         {
-            _context = context;
+            db = context;
         }
 
         // GET: api/data
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<data>>> GetDatas()
+        public Object GetDatas()
         {
-            return await _context.Datas.ToListAsync();
+            var data = (from d in db.Datas
+                        join a in db.Accds
+                            on d.Location equals a.Location
+                        join p in db.Ptvs
+                            on a.Location equals p.Location
+                        select new
+                        {
+                            Location = d.Location,
+                            d.Dfd,
+                            Accomodation_Name = a.Name,
+                            Places_to_visit = p.Name,
+                            Budget = d.Budget
+                        }).ToList();
+            return data;
+            //return await db.Datas.ToListAsync();
         }
 
         // GET: api/data/5
         [HttpGet("{id}")]
         public async Task<ActionResult<data>> Getdata(string id)
         {
-            var data = await _context.Datas.FindAsync(id);
+            var data = await db.Datas.FindAsync(id);
 
             if (data == null)
             {
@@ -52,11 +66,11 @@ namespace housing.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(data).State = EntityState.Modified;
+            db.Entry(data).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await db.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -79,10 +93,10 @@ namespace housing.Controllers
         [HttpPost]
         public async Task<ActionResult<data>> Postdata(data data)
         {
-            _context.Datas.Add(data);
+            db.Datas.Add(data);
             try
             {
-                await _context.SaveChangesAsync();
+                await db.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
@@ -103,21 +117,21 @@ namespace housing.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<data>> Deletedata(string id)
         {
-            var data = await _context.Datas.FindAsync(id);
+            var data = await db.Datas.FindAsync(id);
             if (data == null)
             {
                 return NotFound();
             }
 
-            _context.Datas.Remove(data);
-            await _context.SaveChangesAsync();
+            db.Datas.Remove(data);
+            await db.SaveChangesAsync();
 
             return data;
         }
 
         private bool dataExists(string id)
         {
-            return _context.Datas.Any(e => e.Location == id);
+            return db.Datas.Any(e => e.Location == id);
         }
     }
 }
